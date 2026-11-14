@@ -1,5 +1,14 @@
 /* Eventos de intenção na landing page. Compras reais devem vir da Kiwify. */
-const cfg = window.PG_TRACKING_CONFIG || {};
+const cfg = {
+  pixelId: '967550679424125',
+  productId: 'pequenos_genios_200',
+  productName: 'Pequenos Gênios — 200 Atividades',
+  currency: 'BRL',
+  price: 19.90,
+  checkoutUrl: 'https://pay.kiwify.com.br/qGfiEhh',
+  appendUtmToCheckout: true,
+  ...(window.PG_TRACKING_CONFIG || {})
+};
 const TRACK_KEY = 'pg_track_session';
 const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
 const params = new URLSearchParams(location.search);

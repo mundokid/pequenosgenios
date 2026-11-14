@@ -65,6 +65,6 @@
 .mid-offer .sample-text-link{margin-top:21px}
 /* Carrossel contínuo com scroll horizontal; nunca empilhar os cards */
 .voices-section .voice-carousel{overflow:hidden;overflow-x:hidden;mask-image:linear-gradient(to right,transparent,#000 2%,#000 98%,transparent);touch-action:pan-y}
-.voices-section .voice-grid{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;width:max-content!important;gap:15px!important;animation:none!important;transform:none!important}
+.voices-section .voice-grid{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;width:max-content!important;gap:15px!important;animation:none!important}
 .voices-section .voice-card{flex:0 0 300px!important;width:300px!important;min-width:300px!important;opacity:1!important;transform:none!important;visibility:visible!important}
 @media(max-width:600px){.mid-offer-wrap{margin:20px auto 32px}.mid-offer{padding:22px 20px 21px;border-radius:23px}.mid-offer .btn{min-height:58px;font-size:12px}.mid-offer .discount-sticker{width:63px;height:63px;font-size:19px}.mid-offer .price-line{gap:10px}.mid-offer .price-line del{font-size:14px}.mid-offer .price-line strong{font-size:36px}.voices-section .voice-card{flex-basis:265px!important;width:265px!important;min-width:265px!important}}
