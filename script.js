@@ -48,5 +48,28 @@ modal.addEventListener('click',(event)=>{if(event.target===modal)modal.close()})
 document.querySelectorAll('a[href$="amostra-gratis-3-atividades.pdf"]').forEach(a=>a.addEventListener('click',()=>emit('ViewSample',{sample_count:3},true)));
 if('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:.12});
- document.querySelectorAll('.topic-card,.age-card,.preview-card,.routine-card,.audience-card,.voice-card').forEach(e=>{e.classList.add('reveal');observer.observe(e)});
+ document.querySelectorAll('.topic-card,.age-card,.preview-card,.routine-card,.audience-card').forEach(e=>{e.classList.add('reveal');observer.observe(e)});
 }
+
+// Carrossel contínuo em loop, independente do tamanho da tela.
+(function(){
+ const viewport=document.querySelector('.voices-section .voice-carousel');
+ const track=viewport?.querySelector('.voice-grid');
+ if(!viewport||!track)return;
+ const originals=Array.from(track.children);
+ originals.forEach(card=>{const clone=card.cloneNode(true);clone.setAttribute('aria-hidden','true');track.appendChild(clone)});
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let offset=0,last=0,paused=false;
+ function cycleWidth(){const first=originals[0],clone=track.children[originals.length];return clone.offsetLeft-first.offsetLeft}
+ function draw(){const width=cycleWidth();if(width>0){offset=((offset%width)+width)%width;track.style.transform=`translate3d(${-offset}px,0,0)`}}
+ function frame(now){if(last&&!paused&&!reduced.matches)offset+=Math.min(now-last,80)*0.032;last=now;draw();requestAnimationFrame(frame)}
+ viewport.addEventListener('mouseenter',()=>paused=true);
+ viewport.addEventListener('mouseleave',()=>paused=false);
+ viewport.addEventListener('focusin',()=>paused=true);
+ viewport.addEventListener('focusout',()=>paused=false);
+ document.addEventListener('visibilitychange',()=>{last=0});
+ const move=direction=>{const card=originals[0];offset+=direction*(card.getBoundingClientRect().width+15);draw()};
+ document.querySelector('.voice-prev')?.addEventListener('click',()=>move(-1));
+ document.querySelector('.voice-next')?.addEventListener('click',()=>move(1));
+ requestAnimationFrame(frame);
+})();
