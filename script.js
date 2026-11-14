@@ -36,14 +36,20 @@ function checkoutLink(){
   if(cfg.appendUtmToCheckout) for(const [key,val] of Object.entries(tracking)) if(!url.searchParams.has(key)) url.searchParams.set(key,val);
   return url.toString();
 }
-const toast=document.getElementById('checkout-toast');
-document.querySelectorAll('.buy-button').forEach((button)=>button.addEventListener('click',()=>{
-  const url=checkoutLink();
-  if(!url){toast.hidden=false;document.getElementById('close-toast').focus();return;}
-  emit('InitiateCheckout',base);
-  location.assign(url);
-}));
-document.getElementById('close-toast').addEventListener('click',()=>toast.hidden=true);
+// Links reais no HTML garantem checkout mesmo sem JS ou com cache antigo.
+// Eventos de intenção não bloqueiam a navegação.
+document.querySelectorAll('a.buy-button').forEach((link)=>{
+  link.addEventListener('click',()=>{
+    try { emit('InitiateCheckout',base); } catch(e) {}
+    try {
+      const url = new URL(link.href);
+      if(cfg.appendUtmToCheckout){
+        for(const [key,val] of Object.entries(tracking)) if(!url.searchParams.has(key)) url.searchParams.set(key,val);
+        link.href=url.toString();
+      }
+    } catch(e) {}
+  });
+});
 const modal=document.getElementById('preview-modal');
 const modalImage=document.getElementById('modal-image');
 const modalTitle=document.getElementById('modal-title');
@@ -60,25 +66,29 @@ if('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-moti
  document.querySelectorAll('.topic-card,.age-card,.preview-card,.routine-card,.audience-card').forEach(e=>{e.classList.add('reveal');observer.observe(e)});
 }
 
-// Carrossel contínuo em loop, independente do tamanho da tela.
+// Carrossel contínuo: duplica os cinco relatos e anima a distância exata.
 (function(){
  const viewport=document.querySelector('.voices-section .voice-carousel');
- const track=viewport?.querySelector('.voice-grid');
+ const track=viewport && viewport.querySelector('.voice-grid');
  if(!viewport||!track)return;
  const originals=Array.from(track.children);
- originals.forEach(card=>{const clone=card.cloneNode(true);clone.setAttribute('aria-hidden','true');track.appendChild(clone)});
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
- let offset=0,last=0,paused=false;
- function cycleWidth(){const first=originals[0],clone=track.children[originals.length];return clone.offsetLeft-first.offsetLeft}
- function draw(){const width=cycleWidth();if(width>0){offset=((offset%width)+width)%width;track.style.transform=`translate3d(${-offset}px,0,0)`}}
- function frame(now){if(last&&!paused&&!reduced.matches)offset+=Math.min(now-last,80)*0.032;last=now;draw();requestAnimationFrame(frame)}
- viewport.addEventListener('mouseenter',()=>paused=true);
- viewport.addEventListener('mouseleave',()=>paused=false);
- viewport.addEventListener('focusin',()=>paused=true);
- viewport.addEventListener('focusout',()=>paused=false);
- document.addEventListener('visibilitychange',()=>{last=0});
- const move=direction=>{const card=originals[0];offset+=direction*(card.getBoundingClientRect().width+15);draw()};
+ if(!originals.length)return;
+ originals.forEach(card=>{const copy=card.cloneNode(true);copy.setAttribute('aria-hidden','true');track.appendChild(copy)});
+ const measure=()=>{
+   const distance=track.children[originals.length].offsetLeft-track.children[0].offsetLeft;
+   if(distance>0){track.style.setProperty('--pg-loop-distance',distance+'px');track.style.setProperty('--pg-loop-duration',Math.max(32,distance/32)+'s')}
+ };
+ measure();window.addEventListener('resize',measure,{passive:true});
+ const move=(direction)=>{
+   const width=originals[0].getBoundingClientRect().width+15;
+   // Retoma a animação já deslocada, sem perder o loop.
+   const computed=getComputedStyle(track).transform;
+   let current=0;try{current=new DOMMatrixReadOnly(computed).m41}catch(e){}
+   const distance=track.children[originals.length].offsetLeft-track.children[0].offsetLeft;
+   const next=(((-current+direction*width)%distance)+distance)%distance;
+   const duration=parseFloat(getComputedStyle(track).animationDuration)*1000||48000;
+   track.style.animationDelay=(-next/distance*duration)+'ms';
+ };
  document.querySelector('.voice-prev')?.addEventListener('click',()=>move(-1));
  document.querySelector('.voice-next')?.addEventListener('click',()=>move(1));
- requestAnimationFrame(frame);
 })();

@@ -68,3 +68,23 @@
 .voices-section .voice-grid{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;width:max-content!important;gap:15px!important;animation:none!important}
 .voices-section .voice-card{flex:0 0 300px!important;width:300px!important;min-width:300px!important;opacity:1!important;transform:none!important;visibility:visible!important}
 @media(max-width:600px){.mid-offer-wrap{margin:20px auto 32px}.mid-offer{padding:22px 20px 21px;border-radius:23px}.mid-offer .btn{min-height:58px;font-size:12px}.mid-offer .discount-sticker{width:63px;height:63px;font-size:19px}.mid-offer .price-line{gap:10px}.mid-offer .price-line del{font-size:14px}.mid-offer .price-line strong{font-size:36px}.voices-section .voice-card{flex-basis:265px!important;width:265px!important;min-width:265px!important}}
+
+/* Correção mobile: composição limpa, sem fotos e etiquetas sobrepostas */
+@media(max-width:600px){
+ .hero-art{height:auto!important;min-height:0!important;max-width:440px!important;width:100%!important;margin:22px auto 0!important;display:grid!important;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch;isolation:isolate}
+ .hero-art-glow,.hero-art .realistic-caption{display:none!important}
+ .hero-art .lifestyle-panel{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:4/5!important;grid-column:1 / -1;transform:none!important;border:4px solid #fff!important;border-radius:20px!important;overflow:hidden!important;box-shadow:0 12px 30px rgba(31,44,70,.12)!important}
+ .hero-art .lifestyle-panel img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+ .hero-art .cover-frame{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;grid-column:1 / -1;width:58%!important;max-width:235px;margin:-58px 0 0 12px;transform:rotate(-4deg)!important;padding:5px!important;border-radius:13px!important;z-index:3;box-shadow:0 12px 28px rgba(31,44,70,.18)!important}
+ .hero-art .cover-frame img{display:block;width:100%;height:auto}
+ .hero-art .floating-chip{position:relative!important;top:auto!important;right:auto!important;left:auto!important;bottom:auto!important;transform:none!important;min-width:0!important;width:100%;box-shadow:0 5px 17px rgba(26,49,77,.08);padding:9px 8px;gap:7px;align-items:center}
+ .hero-art .chip-top{grid-column:1;grid-row:3}
+ .hero-art .chip-bottom{grid-column:2;grid-row:3}
+ .hero-art .floating-chip b{font-size:10px;line-height:1.3}
+ .hero-art .floating-chip small{font-size:8px;line-height:1.3}
+ .hero-art .chip-icon{width:28px;height:28px;flex-shrink:0}
+}
+/* Loop contínuo: distância real da primeira sequência, incluindo gaps */
+.voices-section .voice-grid{animation:pg-voices-loop var(--pg-loop-duration,48s) linear infinite!important;transform:translate3d(0,0,0);}
+@keyframes pg-voices-loop{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--pg-loop-distance, 1575px)),0,0)}}
+@media(prefers-reduced-motion:reduce){.voices-section .voice-grid{animation-duration:90s!important}}
