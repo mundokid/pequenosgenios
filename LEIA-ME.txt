@@ -1,55 +1,27 @@
-PEQUENOS GÊNIOS — PÁGINA DE VENDAS PREMIUM
-==========================================
+PEQUENOS GÊNIOS — SITE DE VENDAS | EDIÇÃO COM INCLUSÃO E RASTREAMENTO
 
-ARQUIVOS
-- index.html                  Página de vendas
-- styles.css                  Visual responsivo
-- script.js                   Botões de compra e visualizador das atividades
-- assets/                     Imagens e capa otimizadas para celular
-- amostra-gratis-3-atividades.pdf  PDF público com 3 atividades reais
+Todos os arquivos devem ficar JUNTOS na mesma pasta, incluindo index.html, styles.css, script.js, tracking-config.js, imagens e PDF de amostra.
 
-1) CONECTAR O LINK DO CHECKOUT (OBRIGATÓRIO)
-Abra script.js e substitua:
-   const CHECKOUT_URL = 'COLE_AQUI_O_LINK_DO_CHECKOUT';
-por exemplo:
-   const CHECKOUT_URL = 'https://seu-checkout-aqui.com/pedido';
-Use sua URL real. Todas as chamadas para compra passarão a usar esse destino.
+ANTES DE PUBLICAR:
+1. Abra tracking-config.js e preencha pixelId com o ID real do seu pixel Meta.
+2. Quando receber o link da Kiwify, preencha checkoutUrl no mesmo arquivo.
+3. Configure na Kiwify o MESMO Pixel Meta e confirme os eventos de compra reais na plataforma.
+4. Faça testes com Meta Pixel Helper e Eventos de Teste no Gerenciador de Eventos.
+5. Confira as regras da LGPD, consentimento/cookies e políticas de privacidade aplicáveis antes de ativar publicidade.
 
-2) PUBLICAR
-Envie TODOS os arquivos e subpastas juntos para a hospedagem (Hostinger,
-Netlify, Vercel, GitHub Pages etc.). A página é estática, sem necessidade de build.
-Para ver localmente, abra index.html. A amostra em PDF e as imagens já funcionam.
+EVENTOS DA LANDING PAGE:
+- PageView, ViewContent (após configuração do Pixel)
+- PreviewActivity (evento personalizado ao ampliar atividade)
+- ViewSample (evento personalizado ao abrir amostra PDF)
+- InitiateCheckout (somente ao clicar com checkout válido)
+- dataLayer para integrações futuras
+- UTMs preservadas e repassadas ao checkout quando habilitado
 
-3) PRODUTO COMPLETO
-O PDF completo de 203 páginas NÃO foi colocado na pasta pública da página,
-para evitar distribuir o arquivo pago. Faça upload do arquivo completo apenas
-na área de entrega protegida da sua plataforma de vendas.
+IMPORTANTE SOBRE PURCHASE E ORDER BUMPS:
+- A landing page NÃO emite Purchase; só a Kiwify pode confirmar pagamentos.
+- Verifique no painel da Kiwify quais eventos/IDs de produto, integrações de Pixel e webhooks estão disponíveis.
+- Para separar oferta principal e cada bump com segurança, use relatórios de itens comprados, IDs de produto/oferta e/ou webhook de compra confirmada. Não presuma que o pixel Meta gera um Purchase individual por bump.
+- Se houver integração via API de Conversões, deduplique com event_id compartilhado entre navegador e servidor.
+- Não envie informações de diagnóstico de crianças, TEA ou dados pessoais sensíveis em eventos de anúncios.
 
-4) DEPOIMENTOS
-Os três textos de professora, mãe e terapeuta estão identificados claramente
-na página como EXEMPLOS FICTÍCIOS, não relatos de clientes reais.
-Antes de anunciar como prova social, substitua por depoimentos verdadeiros,
-com autorização de uso. Não apresente avaliações inventadas como autênticas.
-
-5) PROMOÇÃO E EDIÇÃO
-O desconto de R$47,90 para R$19,90 e a indicação por tempo limitado foram
-configurados conforme solicitado. Não há cronômetro ou estoque falso.
-A edição é apresentada como 2026/2027. Não há afirmação de validação clínica
-ou certificação oficial de cada atividade.
-
-6) FONTES
-- BNCC/MEC: https://basenacionalcomum.mec.gov.br/
-- AAP: https://publications.aap.org/pediatrics/article/142/3/e20182058/38649
-- CDC: https://www.cdc.gov/act-early/milestones/
-- ASHA: https://www.asha.org/practice-portal/professional-issues/augmentative-and-alternative-communication/
-As fontes sustentam princípios gerais, NÃO validam individualmente as atividades.
-
-7) AMOSTRA GRÁTIS
-As páginas de atividade são originais, extraídas diretamente do PDF completo:
-- 017 Passeio da borboleta (página física 20)
-- 091 Complete: bola (página física 94)
-- 178 Passos para se preparar — inclusiva/TEA (página física 181)
-
-8) IMAGENS DE AMBIENTE
-As duas fotografias de contexto foram geradas por IA exclusivamente para fins
-ilustrativos. Elas não representam clientes, crianças ou professoras reais.
+Os relatos na página são exemplos fictícios claramente identificados, não avaliações reais. As referências do material não representam validação clínica.
