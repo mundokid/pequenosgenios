@@ -60,7 +60,7 @@ document.querySelectorAll('.preview-open').forEach((button)=>button.addEventList
 }));
 document.getElementById('close-modal').addEventListener('click',()=>modal.close());
 modal.addEventListener('click',(event)=>{if(event.target===modal)modal.close()});
-document.querySelectorAll('a[href$="amostra-gratis-3-atividades.pdf"]').forEach(a=>a.addEventListener('click',()=>emit('ViewSample',{sample_count:3},true)));
+document.querySelectorAll('a[href$="amostra-gratis-6-atividades.pdf"]').forEach(a=>a.addEventListener('click',()=>emit('ViewSample',{sample_count:6},true)));
 if('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:.12});
  document.querySelectorAll('.topic-card,.age-card,.preview-card,.routine-card,.audience-card').forEach(e=>{e.classList.add('reveal');observer.observe(e)});
@@ -91,4 +91,22 @@ if('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-moti
  };
  document.querySelector('.voice-prev')?.addEventListener('click',()=>move(-1));
  document.querySelector('.voice-next')?.addEventListener('click',()=>move(1));
+})();
+
+// Entrada suave de seções ao rolar. Não modifica o carrossel de depoimentos.
+(function(){
+ const targets=document.querySelectorAll('.trust-item,.early-proof-card,.early-inclusion-inner,.section-heading,.inclusive-shell,.research-grid,.offer-box,.faq-list,.mid-offer');
+ if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('pg-visible');observer.unobserve(entry.target)}})},{threshold:.08,rootMargin:'0px 0px 40px 0px'});
+ targets.forEach(el=>{el.classList.add('pg-scroll-reveal');observer.observe(el)});
+})();
+
+// Dinamismo leve: barra de leitura e entrada escalonada. Não toca no carrossel de depoimentos.
+(function(){
+ const bar=document.querySelector('.pg-read-progress');
+ if(bar){let ticking=false;const update=()=>{const max=document.documentElement.scrollHeight-innerHeight;const value=max>0?Math.min(1,Math.max(0,scrollY/max)):0;bar.style.transform='scaleX('+value+')';ticking=false};addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});addEventListener('resize',update,{passive:true});update()}
+ if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const cards=document.querySelectorAll('.trust-item,.audience-card,.topic-card,.age-card,.preview-card,.routine-card');
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('pg-visible');observer.unobserve(entry.target)}}},{threshold:.07,rootMargin:'0px 0px -12px 0px'});
+ cards.forEach((el,i)=>{el.style.setProperty('--pg-stagger',((i%4)*85)+'ms');observer.observe(el)});
 })();

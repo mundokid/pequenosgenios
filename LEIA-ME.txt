@@ -1,27 +1,10 @@
-PEQUENOS GÊNIOS — SITE DE VENDAS | EDIÇÃO COM INCLUSÃO E RASTREAMENTO
+SITE PEQUENOS GÊNIOS — ATUALIZAÇÃO DE CONVERSÃO
 
-Todos os arquivos devem ficar JUNTOS na mesma pasta, incluindo index.html, styles.css, script.js, tracking-config.js, imagens e PDF de amostra.
+Publique TODOS os arquivos desta pasta na mesma raiz do GitHub Pages.
+Checkout principal: https://pay.kiwify.com.br/qGfiEhh
+Pixel Meta: 967550679424125 (eventos PageView, ViewContent, InitiateCheckout).
+Purchase e itens dos order bumps devem ser rastreados pela integração Kiwify; não são inferidos pelo site.
 
-ANTES DE PUBLICAR:
-1. Abra tracking-config.js e preencha pixelId com o ID real do seu pixel Meta.
-2. Quando receber o link da Kiwify, preencha checkoutUrl no mesmo arquivo.
-3. Configure na Kiwify o MESMO Pixel Meta e confirme os eventos de compra reais na plataforma.
-4. Faça testes com Meta Pixel Helper e Eventos de Teste no Gerenciador de Eventos.
-5. Confira as regras da LGPD, consentimento/cookies e políticas de privacidade aplicáveis antes de ativar publicidade.
+Amostra-gratis-6-atividades.pdf: 3 páginas do produto principal + 1 de Brincadeiras em Movimento + 1 de Minha Rotina Divertida + 1 de Pequenos Gênios das Emoções. Os três materiais complementares completos NÃO estão inclusos no produto principal e são oferecidos opcionalmente como order bumps.
 
-EVENTOS DA LANDING PAGE:
-- PageView, ViewContent (após configuração do Pixel)
-- PreviewActivity (evento personalizado ao ampliar atividade)
-- ViewSample (evento personalizado ao abrir amostra PDF)
-- InitiateCheckout (somente ao clicar com checkout válido)
-- dataLayer para integrações futuras
-- UTMs preservadas e repassadas ao checkout quando habilitado
-
-IMPORTANTE SOBRE PURCHASE E ORDER BUMPS:
-- A landing page NÃO emite Purchase; só a Kiwify pode confirmar pagamentos.
-- Verifique no painel da Kiwify quais eventos/IDs de produto, integrações de Pixel e webhooks estão disponíveis.
-- Para separar oferta principal e cada bump com segurança, use relatórios de itens comprados, IDs de produto/oferta e/ou webhook de compra confirmada. Não presuma que o pixel Meta gera um Purchase individual por bump.
-- Se houver integração via API de Conversões, deduplique com event_id compartilhado entre navegador e servidor.
-- Não envie informações de diagnóstico de crianças, TEA ou dados pessoais sensíveis em eventos de anúncios.
-
-Os relatos na página são exemplos fictícios claramente identificados, não avaliações reais. As referências do material não representam validação clínica.
+Após publicar, teste os botões, o download e o carrossel no seu celular.
